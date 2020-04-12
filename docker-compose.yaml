@@ -3,12 +3,20 @@ services:
   dynamic-config-redis-storage:
     image: redis
     container_name: dynamic-config-redis-storage
+  dynamic-config-database-primer:
+    build: 
+      context: .
+      dockerfile: src/clients/DatabasePrimer.Service/Dockerfile
+    depends_on: 
+      - dynamic-config-redis-storage
   dynamic-config-storage-api:
     build: 
       context: .
       dockerfile: src/DynamicConfig.Storage.Api/Dockerfile
     image: dynamic-config-storage-api
     container_name: dynamic-config-storage-api
+    depends_on: 
+      - dynamic-config-redis-storage
   client-service-a:
     build:
       context: .

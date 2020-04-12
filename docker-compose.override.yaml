@@ -3,6 +3,9 @@ services:
   dynamic-config-redis-storage:
     ports:
       - "6379:6379"
+  dynamic-config-database-primer:
+    environment:
+      - REDIS=dynamic-config-redis-storage
   dynamic-config-storage-api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
