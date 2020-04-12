@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <UserSecretsId>dotnet-WorkerService.ServiceA-0992FC2D-DD6C-4AD6-9E30-34B11CAF4197</UserSecretsId>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\DynamicConfig.Configuration\DynamicConfig.Configuration.csproj" />
+    </ItemGroup>
+</Project>

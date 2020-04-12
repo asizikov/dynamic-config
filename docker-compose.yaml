@@ -1,0 +1,17 @@
+version: '3'
+services:
+  dynamic-config-redis-storage:
+    image: redis
+    container_name: dynamic-config-redis-storage
+  dynamic-config-storage-api:
+    build: 
+      context: .
+      dockerfile: src/DynamicConfig.Storage.Api/Dockerfile
+    image: dynamic-config-storage-api
+    container_name: dynamic-config-storage-api
+  client-service-a:
+    build:
+      context: .
+      dockerfile: src/clients/WorkerService.ServiceA/Dockerfile
+    image: client-service-a
+    container_name: client-service-a

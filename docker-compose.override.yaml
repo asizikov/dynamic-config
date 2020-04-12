@@ -1,0 +1,17 @@
+version: '3'
+services:
+  dynamic-config-redis-storage:
+    ports:
+      - "6379:6379"
+  dynamic-config-storage-api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - REDIS=dynamic-config-redis-storage
+    ports:
+      - "8080:80"
+  client-service-a:
+    environment:
+      - DYNAMIC_CONFIG_APPLICATION_NAME=SERVICE-A
+      - DYNAMIC_CONFIG_REFRESH_INTERVAL_MS=1500
+      - DYNAMIC_CONFIG_STORAGE_CONNECTION_STRING=http://dynamic-config-storage-api:80
+
