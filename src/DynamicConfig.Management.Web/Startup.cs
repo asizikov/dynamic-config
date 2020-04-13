@@ -39,9 +39,8 @@ namespace DynamicConfig.Management.Web {
         s.WithDefaultConventions();
       });
       services.AddSingleton(new RedisConfiguration {
-        Hosts = new[]
-        {
-          new RedisHost{Host = Configuration.GetSection("REDIS").Value, Port = 6379},
+        Hosts = new[] {
+          new RedisHost {Host = Configuration.GetSection("REDIS").Value, Port = 6379},
         }
       });
       services.AddSingleton<IRedisCacheClient, RedisCacheClient>();

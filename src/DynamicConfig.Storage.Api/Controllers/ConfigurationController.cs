@@ -39,7 +39,7 @@ namespace DynamicConfig.Storage.Api.Controllers {
               Type = c.Type,
               Value = c.Value,
               Name = c.Name
-          }).ToList()
+            }).ToList()
         };
         return response;
       }

@@ -21,16 +21,15 @@ namespace DatabasePrimer.Service {
       Host.CreateDefaultBuilder(args)
         .ConfigureServices((hostContext, services) => {
           services.AddSingleton(new RedisConfiguration {
-            Hosts = new[]
-            {
-              new RedisHost{Host = hostContext.Configuration.GetSection("REDIS").Value, Port = 6379},
+            Hosts = new[] {
+              new RedisHost {Host = hostContext.Configuration.GetSection("REDIS").Value, Port = 6379},
             }
           });
           services.AddTransient<IConfigurationRepository, ConfigurationRepository>();
-          services.AddSingleton<IRedisCacheClient,RedisCacheClient>();
+          services.AddSingleton<IRedisCacheClient, RedisCacheClient>();
           services.AddSingleton<IRedisCacheConnectionPoolManager, RedisCacheConnectionPoolManager>();
           services.AddSingleton<IRedisDefaultCacheClient, RedisDefaultCacheClient>();
-          services.AddSingleton<ISerializer,NewtonsoftSerializer>();
+          services.AddSingleton<ISerializer, NewtonsoftSerializer>();
           services.AddHostedService<Worker>();
         });
   }

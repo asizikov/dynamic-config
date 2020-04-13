@@ -10,8 +10,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 namespace DynamicConfig.Configuration.DependencyInjection {
   public static class ServiceCollectionExtensions {
     public static IServiceCollection UseDynamicConfiguration(this IServiceCollection services, IConfiguration configuration) {
-
-      services.AddHttpClient<IConfigurationStorageClient,ConfigurationStorageClient>(client => {
+      services.AddHttpClient<IConfigurationStorageClient, ConfigurationStorageClient>(client => {
         client.BaseAddress = new Uri(configuration[Constants.Env.DYNAMIC_CONFIG_STORAGE_CONNECTION_STRING]);
       });
       services.AddSingleton<IConfigurationUpdaterJob, ConfigurationUpdaterJob>();
