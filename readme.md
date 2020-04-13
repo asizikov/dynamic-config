@@ -111,6 +111,11 @@ The library consists of three components.
 * SettingsCache an immutable key-value collection of known active keys for this application.
 * Configuration Updater Job: a background process which periodically polls a Storage API, processed the response and swaps the SettingsCache with a new one (remember, the cache is immutable)
 
+#### Storage structure
+
+Redis entries managed by this application have the following structure: 
+
+
 
 ### Q&A
 
@@ -124,10 +129,14 @@ The library it tested, but other systems are not covered very well, simply becau
 
 > Why just Redis? 
 
-This is probably not the best solution, because it makes management a bit cumbersome. I should have split the storage into two parts: a bit more advanced storage like CosmosDB/MongoDB/MSSQL and a settings cache in Redis organized by application name.
+This is probably not the best solution, because it makes key management a bit cumbersome. I should have split the storage into two parts: a bit more advanced storage like CosmosDB/MongoDB/MSSQL and a settings cache in Redis organized by application name.
 
-This will allow us to have a nice table-like persisted storage, where we can perform CRURD operation. This storage won't be very loaded, because it'll be isolated from all the polling by clients.
+This will allow us to have a nice table-like persisted storage, where we can perform CRURD operations. This storage won't be very loaded, because it'll be isolated from all the polling by clients.
 
 And if we add a sync service with would detect storage modification (it could be notified by the message on the message bus), which would take care of Redis cache update (remove inactive settings, insert new settings, update existing active settings).
 
 But that's probably too much for a weekend PoC project, right?
+
+> Why there is no 'Create new' or 'Edit' ui and implementation in the Management portal?
+
+Same reason as above. Not enough time.

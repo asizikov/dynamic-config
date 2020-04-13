@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DynamicConfig.Database;
+using DynamicConfig.Database.DependencyInjection;
 using Lamar;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -43,6 +44,7 @@ namespace DynamicConfig.Management.Web {
           new RedisHost {Host = Configuration.GetSection("REDIS").Value, Port = 6379},
         }
       });
+      services.AddStackExchangeRedisCache(options => { options.Configuration = Configuration.GetSection("REDIS").Value; });
       services.AddSingleton<IRedisCacheClient, RedisCacheClient>();
       services.AddSingleton<IRedisCacheConnectionPoolManager, RedisCacheConnectionPoolManager>();
       services.AddSingleton<IRedisDefaultCacheClient, RedisDefaultCacheClient>();
