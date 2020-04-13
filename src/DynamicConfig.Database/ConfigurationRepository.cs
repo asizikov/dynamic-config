@@ -5,17 +5,14 @@ using System.Threading;
 using System.Threading.Tasks;
 using DynamicConfig.Storage.DatabaseModel;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using StackExchange.Redis.Extensions.Core.Abstractions;
 
 namespace DynamicConfig.Database {
   public class ConfigurationRepository : IConfigurationRepository {
-    private readonly IRedisCacheClient _redis;
+    private readonly IStorageAdapter _storageAdapter;
     private readonly ILogger<ConfigurationRepository> _logger;
-    private const string AllRecordsKey = "KnownConfigurations";
 
-    public ConfigurationRepository(IRedisCacheClient redis, ILogger<ConfigurationRepository> logger) {
-      _redis = redis;
+    public ConfigurationRepository(IStorageAdapter storageAdapter, ILogger<ConfigurationRepository> logger) {
+      _storageAdapter = storageAdapter;
       _logger = logger;
     }
 
@@ -24,6 +21,7 @@ namespace DynamicConfig.Database {
     }
 
     public Task InvertStateAsync(Guid id, in CancellationToken token) {
+      //not implemented yet :)
       return Task.CompletedTask;
     }
 
@@ -39,38 +37,26 @@ namespace DynamicConfig.Database {
       var applicationKey = serviceConfigurationRecord.ApplicationName.ToLowerInvariant();
       var serviceConfigurationPage = await GetServiceConfigurationPageAsync(applicationKey).ConfigureAwait(false);
 
-      var transaction = _redis.Db0.Database.CreateTransaction();
+
       databasePage.KnownRecords.Remove(serviceConfigurationRecord);
 
       if (serviceConfigurationRecord.IsActive) {
         var serviceConfigurationActiveRecord = serviceConfigurationPage.Entries.FirstOrDefault(e => e.Name == serviceConfigurationRecord.Name);
         serviceConfigurationPage.Entries.Remove(serviceConfigurationActiveRecord);
-
-#pragma warning disable 4014
-        transaction.StringSetAsync(applicationKey, JsonConvert.SerializeObject(serviceConfigurationPage));
-#pragma warning restore 4014
+       await _storageAdapter.SavePageAsync(applicationKey, serviceConfigurationPage).ConfigureAwait(false);
       }
-#pragma warning disable 4014
-      transaction.StringSetAsync(AllRecordsKey, JsonConvert.SerializeObject(databasePage));
-#pragma warning restore 4014
 
-      var result = await transaction.ExecuteAsync().ConfigureAwait(false);
-      if (!result) {
-        _logger.LogWarning("failed to submit transaction");
-      }
+      await _storageAdapter.SavePageAsync(Constants.AllRecordsKey, databasePage).ConfigureAwait(false);
     }
 
     public async Task InsertAsync(ServiceConfigurationRecord record, CancellationToken token) {
-      _logger.LogInformation($"Going to submit a record {record.Name}");
+      _logger.LogInformation($"Going to insert a record {record.Name}");
       record.Id = Guid.NewGuid();
-      var applicationKey = record.ApplicationName.ToLowerInvariant();
 
+      var applicationKey = record.ApplicationName.ToLowerInvariant();
       var databasePage = await GetDatabasePageAsync().ConfigureAwait(false);
       var serviceConfigurationPage = await GetServiceConfigurationPageAsync(applicationKey).ConfigureAwait(false);
 
-      var transaction = _redis.Db0.Database.CreateTransaction();
-
-      databasePage.KnownRecords.Add(record);
       var duplicate = serviceConfigurationPage.Entries.FirstOrDefault(r => r.Name == record.Name);
       if (duplicate != null) {
         serviceConfigurationPage.Entries.Remove(duplicate);
@@ -93,26 +79,22 @@ namespace DynamicConfig.Database {
           databasePageKnownRecord.IsActive = false;
         }
       }
+      databasePage.KnownRecords.Add(record);
+      //not a transaction btw :(
+      await _storageAdapter.SavePageAsync(applicationKey, serviceConfigurationPage).ConfigureAwait(false);
+      await _storageAdapter.SavePageAsync( Constants.AllRecordsKey, databasePage).ConfigureAwait(false);
 
-#pragma warning disable 4014
-      transaction.StringSetAsync(applicationKey, JsonConvert.SerializeObject(serviceConfigurationPage));
-      transaction.StringSetAsync(AllRecordsKey, JsonConvert.SerializeObject(databasePage));
-#pragma warning restore 4014
-
-      var result = await transaction.ExecuteAsync().ConfigureAwait(false);
-      if (!result) {
-        _logger.LogWarning("failed to submit transaction");
-      }
     }
 
     private async Task<ServiceConfigurationPage> GetServiceConfigurationPageAsync(string applicationKey) =>
-      await _redis.Db0.GetAsync<ServiceConfigurationPage>(applicationKey).ConfigureAwait(false) ??
+      await _storageAdapter.GetServiceConfigurationPageAsync(applicationKey).ConfigureAwait(false) ??
       new ServiceConfigurationPage {
         Entries = new List<ServiceConfigurationActiveRecord>()
       };
 
     private async Task<DatabasePage> GetDatabasePageAsync() =>
-      await _redis.Db0.GetAsync<DatabasePage>(AllRecordsKey).ConfigureAwait(false) ?? new DatabasePage {
+      await _storageAdapter.GetDatabasePageAsync(Constants.AllRecordsKey).ConfigureAwait(false)
+      ?? new DatabasePage {
         KnownRecords = new List<ServiceConfigurationRecord>()
       };
   }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DynamicConfig.Database;
+using DynamicConfig.Database.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using StackExchange.Redis.Extensions.Core;
@@ -24,8 +25,10 @@ namespace DatabasePrimer.Service {
             Hosts = new[] {
               new RedisHost {Host = hostContext.Configuration.GetSection("REDIS").Value, Port = 6379},
             }
-          });
-          services.AddTransient<IConfigurationRepository, ConfigurationRepository>();
+          }
+          );
+          services.AddStackExchangeRedisCache(options => { options.Configuration = hostContext.Configuration.GetSection("REDIS").Value; });
+          services.UseDatabase();
           services.AddSingleton<IRedisCacheClient, RedisCacheClient>();
           services.AddSingleton<IRedisCacheConnectionPoolManager, RedisCacheConnectionPoolManager>();
           services.AddSingleton<IRedisDefaultCacheClient, RedisDefaultCacheClient>();

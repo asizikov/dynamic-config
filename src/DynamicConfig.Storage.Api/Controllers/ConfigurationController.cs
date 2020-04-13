@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -25,9 +24,16 @@ namespace DynamicConfig.Storage.Api.Controllers {
     [HttpGet("{serviceName}")]
     public async Task<ActionResult<ServiceConfigurationResponse>> GetUpdatedStatus(string serviceName, CancellationToken token) {
       _logger.LogInformation($"Received a configuration request for {serviceName}");
-      var json = await _distributedCache.GetStringAsync(serviceName.ToLowerInvariant(), token).ConfigureAwait(false);
-      if (json is null) {
-        _logger.LogWarning($"No settings fround for {serviceName}");
+      string json;
+      try {
+        json = await _distributedCache.GetStringAsync(serviceName.ToLowerInvariant(), token).ConfigureAwait(false);
+        if (json is null) {
+          _logger.LogWarning($"No settings fround for {serviceName}");
+          return NotFound();
+        }
+      }
+      catch (Exception e) {
+        _logger.LogError(e, $"Failed to read config section for {serviceName}");
         return NotFound();
       }
 
