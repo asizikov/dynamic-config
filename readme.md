@@ -115,13 +115,13 @@ The library consists of three components.
 
 Redis entries managed by this application have the following structure: 
 
-+![](docs/images/redis-known-keys.png)
+![](docs/images/redis-known-keys.png)
 
-+A json payload with the list of 'known configurations'. This is used by the Management portal UI. Retrieved and stored as a whole.
-+
-+![](docs/images/redis-service-keys.png)
-+
-+Settings list per service (`service-a` on the screenshot). Stored as a hash because it's managed by .NET Core `IDistributedCache` implementations.
+A json payload with the list of 'known configurations'. This is used by the Management portal UI. Retrieved and stored as a whole.
+
+![](docs/images/redis-service-keys.png)
+
+Settings list per service (`service-a` on the screenshot). Stored as a hash because it's managed by .NET Core `IDistributedCache` implementations.
 
 ### Q&A
 
