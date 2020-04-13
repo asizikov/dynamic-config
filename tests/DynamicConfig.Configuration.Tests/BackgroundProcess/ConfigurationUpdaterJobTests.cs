@@ -31,7 +31,7 @@ namespace DynamicConfig.Configuration.Tests.BackgroundProcess {
     [Fact]
     public void ExecuteAsync_Handles_Client_Failure() {
       _mockConfigurationStorageClient.Setup(c => c.ExecuteAsync(It.IsAny<string>(), _token)).ThrowsAsync(new Exception());
-      Should.NotThrow(async () => await _configurationUpdaterJob.ExecuteAsync(It.IsAny<string>(),_token));
+      Should.NotThrow(async () => await _configurationUpdaterJob.ExecuteAsync(It.IsAny<string>(), _token));
       _mockSettingsCacheManager.Verify(
         manager => manager.ReloadSettingsCache(It.IsAny<SettingsCache<int>>(), It.IsAny<SettingsCache<bool>>(), It.IsAny<SettingsCache<string>>()),
         Times.Never());
@@ -45,7 +45,7 @@ namespace DynamicConfig.Configuration.Tests.BackgroundProcess {
       SettingsCache<bool> bools = null;
       SettingsCache<string> strings = null;
       _mockSettingsCacheManager.Setup(
-        manager => manager.ReloadSettingsCache(It.IsAny<SettingsCache<int>>(), It.IsAny<SettingsCache<bool>>(), It.IsAny<SettingsCache<string>>()))
+          manager => manager.ReloadSettingsCache(It.IsAny<SettingsCache<int>>(), It.IsAny<SettingsCache<bool>>(), It.IsAny<SettingsCache<string>>()))
         .Callback((SettingsCache<int> i, SettingsCache<bool> b, SettingsCache<string> s) => {
           ints = i;
           bools = b;
@@ -70,12 +70,12 @@ namespace DynamicConfig.Configuration.Tests.BackgroundProcess {
             Type = ConfigurationItemType.String,
             Value = "abcd"
           },
-          new ServiceConfigurationItem{
+          new ServiceConfigurationItem {
             Name = "bool-item",
             Type = ConfigurationItemType.Boolean,
             Value = "true"
           },
-          new ServiceConfigurationItem{
+          new ServiceConfigurationItem {
             Name = "int-item",
             Type = ConfigurationItemType.Integer,
             Value = "123"

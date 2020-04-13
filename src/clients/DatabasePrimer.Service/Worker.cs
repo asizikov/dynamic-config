@@ -23,13 +23,13 @@ namespace DatabasePrimer.Service {
       while (!stoppingToken.IsCancellationRequested) {
         _logger.LogInformation("Worker running at: {time}, will submit new config", DateTimeOffset.Now);
         try {
-         await _configurationRepository.InsertAsync(new ServiceConfigurationRecord {
-           Type = ConfigurationItemType.String,
-           ApplicationName = $"SERVICE-{(_random.Next(10) > 5 ? "A" :"B" )}",
-           Name = _random.Next(10) > 5 ? "SiteName" : "Connection String",
-           Value = $"http://updated-site-name:{DateTime.Now.Ticks}/",
-           IsActive = true,
-         }, stoppingToken).ConfigureAwait(false);
+          await _configurationRepository.InsertAsync(new ServiceConfigurationRecord {
+            Type = ConfigurationItemType.String,
+            ApplicationName = $"SERVICE-{(_random.Next(10) > 5 ? "A" : "B")}",
+            Name = _random.Next(10) > 5 ? "SiteName" : "Connection String",
+            Value = $"http://updated-site-name:{DateTime.Now.Ticks}/",
+            IsActive = true,
+          }, stoppingToken).ConfigureAwait(false);
         }
         catch (Exception e) {
           _logger.LogError(e, "Something went wrong...");

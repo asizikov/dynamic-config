@@ -17,18 +17,18 @@
         </tr>
         </thead>
         <tbody>
-            @foreach (var record in Model.Records.OrderBy(c => c.ApplicationName)) {
-                <tr>
-                    <td>@Html.DisplayFor(modelItem => record.Name)</td>
-                    <td>@record.Type</td>
-                    <td>@record.Value</td>
-                    <td>@record.IsActive</td>
-                    <td>@record.ApplicationName</td>
-                    <td>
-                       <a asp-action="ChangeState" asp-route-id="@record.Id">Invert sate</a> |<a asp-action="Delete" asp-route-id="@record.Id">Delete</a>
-                    </td>
-                </tr>
-            }
+        @foreach (var record in Model.Records.OrderBy(c => c.ApplicationName)) {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => record.Name)</td>
+                <td>@record.Type</td>
+                <td>@record.Value</td>
+                <td>@record.IsActive</td>
+                <td>@record.ApplicationName</td>
+                <td>
+                    <a asp-action="ChangeState" asp-route-id="@record.Id">Invert sate</a> |<a asp-action="Delete" asp-route-id="@record.Id">Delete</a>
+                </td>
+            </tr>
+        }
         </tbody>
     </table>
 </div>

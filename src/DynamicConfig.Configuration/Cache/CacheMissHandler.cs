@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace DynamicConfig.Configuration.Cache {
-  public class DefaultCacheMissHandler :ICacheMissHandler {
+  public class DefaultCacheMissHandler : ICacheMissHandler {
     private readonly ILogger<DefaultCacheMissHandler> _logger;
     private readonly IConfiguration _configuration;
 
@@ -20,6 +20,7 @@ namespace DynamicConfig.Configuration.Cache {
         _logger.LogInformation($"Found default (static) value for {key}");
         return _configuration.GetValue<TType>(key);
       }
+
       throw new InvalidOperationException($"Unknown config key {key} requested for type {typeof(TType)}");
     }
   }
