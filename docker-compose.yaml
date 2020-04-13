@@ -16,6 +16,16 @@ services:
       - dynamic-config-redis-storage
     networks: 
       - internal
+  dynamic-config-management-web:
+    build: 
+      context: .
+      dockerfile: src/DynamicConfig.Management.Web/Dockerfile
+    image: dynamic-config-management-web
+    container_name: dynamic-config-management-web
+    depends_on: 
+      - dynamic-config-redis-storage
+    networks: 
+      - internal
   dynamic-config-storage-api:
     build: 
       context: .

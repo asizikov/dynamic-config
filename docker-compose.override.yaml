@@ -6,6 +6,12 @@ services:
   dynamic-config-database-primer:
     environment:
       - REDIS=dynamic-config-redis-storage
+  dynamic-config-management-web:
+    environment:
+      - REDIS=dynamic-config-redis-storage
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "8081:80"
   dynamic-config-storage-api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
@@ -15,6 +21,6 @@ services:
   client-service-a:
     environment:
       - DYNAMIC_CONFIG_APPLICATION_NAME=SERVICE-A
-      - DYNAMIC_CONFIG_REFRESH_INTERVAL_MS=1500
+      - DYNAMIC_CONFIG_REFRESH_INTERVAL_MS=10000
       - DYNAMIC_CONFIG_STORAGE_CONNECTION_STRING=http://dynamic-config-storage-api:80
 

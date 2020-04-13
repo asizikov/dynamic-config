@@ -4,7 +4,7 @@ WORKDIR /app
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
 COPY ["src/clients/DatabasePrimer.Service/*.csproj", "src/clients/DatabasePrimer.Service/"]
-COPY ["src/DynamicConfig.Storage.Model/*.csproj", "src/DynamicConfig.Storage.Model/"]
+COPY ["src/DynamicConfig.Database/*.csproj", "src/DynamicConfig.Database/"]
 COPY ["src/DynamicConfig.Storage.DatabaseModel/*.csproj", "src/DynamicConfig.Storage.DatabaseModel/"]
 RUN dotnet restore "src/clients/DatabasePrimer.Service/DatabasePrimer.Service.csproj"
 COPY . .

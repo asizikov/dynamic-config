@@ -32,10 +32,9 @@ namespace DynamicConfig.Storage.Api.Controllers {
       }
 
       try {
-        var configItems = JsonConvert.DeserializeObject<List<ServiceConfigurationRecord>>(json);
+        var page = JsonConvert.DeserializeObject<ServiceConfigurationPage>(json);
         var response = new ServiceConfigurationResponse {
-          ConfigurationItems = configItems
-            .Where(i => i.IsActive)
+          ConfigurationItems = page.Entries
             .Select(c => new ServiceConfigurationItem {
               Type = c.Type,
               Value = c.Value,

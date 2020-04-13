@@ -2,12 +2,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DynamicConfig.Database;
+using Lamar;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using StackExchange.Redis.Extensions.Core;
+using StackExchange.Redis.Extensions.Core.Abstractions;
+using StackExchange.Redis.Extensions.Core.Configuration;
+using StackExchange.Redis.Extensions.Core.Implementations;
+using StackExchange.Redis.Extensions.Newtonsoft;
 
 namespace DynamicConfig.Management.Web {
   public class Startup {
@@ -20,6 +27,27 @@ namespace DynamicConfig.Management.Web {
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services) {
       services.AddControllersWithViews();
+    }
+
+    public void ConfigureContainer(ServiceRegistry services) {
+      services.Scan(s => {
+        s.TheCallingAssembly();
+        s.WithDefaultConventions();
+      });
+      services.Scan(s => {
+        s.Assembly(typeof(IConfigurationRepository).Assembly);
+        s.WithDefaultConventions();
+      });
+      services.AddSingleton(new RedisConfiguration {
+        Hosts = new[]
+        {
+          new RedisHost{Host = Configuration.GetSection("REDIS").Value, Port = 6379},
+        }
+      });
+      services.AddSingleton<IRedisCacheClient, RedisCacheClient>();
+      services.AddSingleton<IRedisCacheConnectionPoolManager, RedisCacheConnectionPoolManager>();
+      services.AddSingleton<IRedisDefaultCacheClient, RedisDefaultCacheClient>();
+      services.AddSingleton<ISerializer, NewtonsoftSerializer>();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
