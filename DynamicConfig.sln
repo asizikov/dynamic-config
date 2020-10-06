@@ -41,7 +41,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DynamicConfig.Database.Test
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "environment", "environment", "{C123174A-41A0-4E10-9EAC-D278973B1524}"
 	ProjectSection(SolutionItems) = preProject
-		deployments.yaml = deployments.yaml
+		environment\deployments.yaml = environment\deployments.yaml
+		environment\namespace.yaml = environment\namespace.yaml
 	EndProjectSection
 EndProject
 Global
