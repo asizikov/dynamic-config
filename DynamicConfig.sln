@@ -1,59 +1,53 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30225.117
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A2EFE519-31CC-4C1F-AE3D-54FBE30C0173}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{706C9F31-0467-4F3B-9CEB-8775C9B22FC3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{CB73BCC2-F8EB-4013-B716-401AEFEA0F19}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamicConfig.Configuration", "src\DynamicConfig.Configuration\DynamicConfig.Configuration.csproj", "{A3726DD7-C2D3-4BA3-93AE-0158D4373331}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DynamicConfig.Configuration", "src\DynamicConfig.Configuration\DynamicConfig.Configuration.csproj", "{A3726DD7-C2D3-4BA3-93AE-0158D4373331}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkerService.ServiceA", "src\clients\WorkerService.ServiceA\WorkerService.ServiceA.csproj", "{25728D56-492A-406D-9B87-B93CFF1F893D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkerService.ServiceA", "src\clients\WorkerService.ServiceA\WorkerService.ServiceA.csproj", "{25728D56-492A-406D-9B87-B93CFF1F893D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "clients", "clients", "{C7C7268A-EA4C-45C2-B913-D5F2544E1A44}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamicConfig.Management.Web", "src\DynamicConfig.Management.Web\DynamicConfig.Management.Web.csproj", "{895DF769-18A0-427D-ACFE-FE19565FE0CA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DynamicConfig.Management.Web", "src\DynamicConfig.Management.Web\DynamicConfig.Management.Web.csproj", "{895DF769-18A0-427D-ACFE-FE19565FE0CA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "!root", "!root", "{B6AC6306-CB8C-4088-99C9-C7ADB89AA475}"
-ProjectSection(SolutionItems) = preProject
-	docker-compose.yaml = docker-compose.yaml
-	docker-compose.override.yaml = docker-compose.override.yaml
-EndProjectSection
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.override.yaml = docker-compose.override.yaml
+		docker-compose.yaml = docker-compose.yaml
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamicConfig.Storage.Api", "src\DynamicConfig.Storage.Api\DynamicConfig.Storage.Api.csproj", "{2C36113B-1AB4-41D1-9B3E-10069842F001}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DynamicConfig.Storage.Api", "src\DynamicConfig.Storage.Api\DynamicConfig.Storage.Api.csproj", "{2C36113B-1AB4-41D1-9B3E-10069842F001}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamicConfig.Configuration.Tests", "tests\DynamicConfig.Configuration.Tests\DynamicConfig.Configuration.Tests.csproj", "{FA40763E-7225-4CBE-B278-7B3DC9521A48}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DynamicConfig.Configuration.Tests", "tests\DynamicConfig.Configuration.Tests\DynamicConfig.Configuration.Tests.csproj", "{FA40763E-7225-4CBE-B278-7B3DC9521A48}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamicConfig.Storage.Model", "src\DynamicConfig.Storage.Model\DynamicConfig.Storage.Model.csproj", "{97BC0E29-43A2-4E9B-B20C-4D0190633E4D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DynamicConfig.Storage.Model", "src\DynamicConfig.Storage.Model\DynamicConfig.Storage.Model.csproj", "{97BC0E29-43A2-4E9B-B20C-4D0190633E4D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamicConfig.Storage.DatabaseModel", "src\DynamicConfig.Storage.DatabaseModel\DynamicConfig.Storage.DatabaseModel.csproj", "{95C358DC-FC6A-418B-8572-EB391D07B92D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DynamicConfig.Storage.DatabaseModel", "src\DynamicConfig.Storage.DatabaseModel\DynamicConfig.Storage.DatabaseModel.csproj", "{95C358DC-FC6A-418B-8572-EB391D07B92D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabasePrimer.Service", "src\clients\DatabasePrimer.Service\DatabasePrimer.Service.csproj", "{6A1AE838-AC91-4416-93AD-11ED06897258}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatabasePrimer.Service", "src\clients\DatabasePrimer.Service\DatabasePrimer.Service.csproj", "{6A1AE838-AC91-4416-93AD-11ED06897258}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamicConfig.Management.Web.Tests", "tests\DynamicConfig.Management.Web.Tests\DynamicConfig.Management.Web.Tests.csproj", "{0A88A3B4-9F66-4284-ABA0-75584524E065}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DynamicConfig.Management.Web.Tests", "tests\DynamicConfig.Management.Web.Tests\DynamicConfig.Management.Web.Tests.csproj", "{0A88A3B4-9F66-4284-ABA0-75584524E065}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamicConfig.Database", "src\DynamicConfig.Database\DynamicConfig.Database.csproj", "{4480C237-FD39-4387-BFC8-FCE219E01582}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DynamicConfig.Database", "src\DynamicConfig.Database\DynamicConfig.Database.csproj", "{4480C237-FD39-4387-BFC8-FCE219E01582}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamicConfig.Database.Tests", "tests\DynamicConfig.Database.Tests\DynamicConfig.Database.Tests.csproj", "{28EDE7AC-D472-4FC9-BBDC-C351BD6486EF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DynamicConfig.Database.Tests", "tests\DynamicConfig.Database.Tests\DynamicConfig.Database.Tests.csproj", "{28EDE7AC-D472-4FC9-BBDC-C351BD6486EF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "environment", "environment", "{C123174A-41A0-4E10-9EAC-D278973B1524}"
+	ProjectSection(SolutionItems) = preProject
+		deployments.yaml = deployments.yaml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{A3726DD7-C2D3-4BA3-93AE-0158D4373331} = {A2EFE519-31CC-4C1F-AE3D-54FBE30C0173}
-		{C7C7268A-EA4C-45C2-B913-D5F2544E1A44} = {A2EFE519-31CC-4C1F-AE3D-54FBE30C0173}
-		{25728D56-492A-406D-9B87-B93CFF1F893D} = {C7C7268A-EA4C-45C2-B913-D5F2544E1A44}
-		{895DF769-18A0-427D-ACFE-FE19565FE0CA} = {A2EFE519-31CC-4C1F-AE3D-54FBE30C0173}
-		{2C36113B-1AB4-41D1-9B3E-10069842F001} = {A2EFE519-31CC-4C1F-AE3D-54FBE30C0173}
-		{FA40763E-7225-4CBE-B278-7B3DC9521A48} = {706C9F31-0467-4F3B-9CEB-8775C9B22FC3}
-		{97BC0E29-43A2-4E9B-B20C-4D0190633E4D} = {A2EFE519-31CC-4C1F-AE3D-54FBE30C0173}
-		{95C358DC-FC6A-418B-8572-EB391D07B92D} = {A2EFE519-31CC-4C1F-AE3D-54FBE30C0173}
-		{6A1AE838-AC91-4416-93AD-11ED06897258} = {C7C7268A-EA4C-45C2-B913-D5F2544E1A44}
-		{0A88A3B4-9F66-4284-ABA0-75584524E065} = {706C9F31-0467-4F3B-9CEB-8775C9B22FC3}
-		{4480C237-FD39-4387-BFC8-FCE219E01582} = {A2EFE519-31CC-4C1F-AE3D-54FBE30C0173}
-		{28EDE7AC-D472-4FC9-BBDC-C351BD6486EF} = {706C9F31-0467-4F3B-9CEB-8775C9B22FC3}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{A3726DD7-C2D3-4BA3-93AE-0158D4373331}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -100,5 +94,25 @@ Global
 		{28EDE7AC-D472-4FC9-BBDC-C351BD6486EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{28EDE7AC-D472-4FC9-BBDC-C351BD6486EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{28EDE7AC-D472-4FC9-BBDC-C351BD6486EF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A3726DD7-C2D3-4BA3-93AE-0158D4373331} = {A2EFE519-31CC-4C1F-AE3D-54FBE30C0173}
+		{25728D56-492A-406D-9B87-B93CFF1F893D} = {C7C7268A-EA4C-45C2-B913-D5F2544E1A44}
+		{C7C7268A-EA4C-45C2-B913-D5F2544E1A44} = {A2EFE519-31CC-4C1F-AE3D-54FBE30C0173}
+		{895DF769-18A0-427D-ACFE-FE19565FE0CA} = {A2EFE519-31CC-4C1F-AE3D-54FBE30C0173}
+		{2C36113B-1AB4-41D1-9B3E-10069842F001} = {A2EFE519-31CC-4C1F-AE3D-54FBE30C0173}
+		{FA40763E-7225-4CBE-B278-7B3DC9521A48} = {706C9F31-0467-4F3B-9CEB-8775C9B22FC3}
+		{97BC0E29-43A2-4E9B-B20C-4D0190633E4D} = {A2EFE519-31CC-4C1F-AE3D-54FBE30C0173}
+		{95C358DC-FC6A-418B-8572-EB391D07B92D} = {A2EFE519-31CC-4C1F-AE3D-54FBE30C0173}
+		{6A1AE838-AC91-4416-93AD-11ED06897258} = {C7C7268A-EA4C-45C2-B913-D5F2544E1A44}
+		{0A88A3B4-9F66-4284-ABA0-75584524E065} = {706C9F31-0467-4F3B-9CEB-8775C9B22FC3}
+		{4480C237-FD39-4387-BFC8-FCE219E01582} = {A2EFE519-31CC-4C1F-AE3D-54FBE30C0173}
+		{28EDE7AC-D472-4FC9-BBDC-C351BD6486EF} = {706C9F31-0467-4F3B-9CEB-8775C9B22FC3}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {51435DD0-9A6F-4A24-82F0-CAAC9F20F7E8}
 	EndGlobalSection
 EndGlobal
