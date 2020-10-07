@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: dynamic-config-storage-api
+spec:
+  containers:
+  - name: dynamic-config-storage-api
+    image: ghcr.io/asizikov/dynamic-config-storage-api:v001
+  imagePullSecrets:
+  - name: dockerconfigjson-github-com

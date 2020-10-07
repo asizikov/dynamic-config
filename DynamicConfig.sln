@@ -41,8 +41,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DynamicConfig.Database.Test
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "environment", "environment", "{C123174A-41A0-4E10-9EAC-D278973B1524}"
 	ProjectSection(SolutionItems) = preProject
+		environment\config-api.yaml = environment\config-api.yaml
 		environment\deployments.yaml = environment\deployments.yaml
 		environment\namespace.yaml = environment\namespace.yaml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "cluster-configs", "cluster-configs", "{B5B2363F-04C5-4268-9957-822AD99DE666}"
+	ProjectSection(SolutionItems) = preProject
+		environment\cluster-configs\dockerconfigjson.yaml = environment\cluster-configs\dockerconfigjson.yaml
+		environment\cluster-configs\namespace.yaml = environment\cluster-configs\namespace.yaml
 	EndProjectSection
 EndProject
 Global
@@ -112,6 +119,7 @@ Global
 		{0A88A3B4-9F66-4284-ABA0-75584524E065} = {706C9F31-0467-4F3B-9CEB-8775C9B22FC3}
 		{4480C237-FD39-4387-BFC8-FCE219E01582} = {A2EFE519-31CC-4C1F-AE3D-54FBE30C0173}
 		{28EDE7AC-D472-4FC9-BBDC-C351BD6486EF} = {706C9F31-0467-4F3B-9CEB-8775C9B22FC3}
+		{B5B2363F-04C5-4268-9957-822AD99DE666} = {C123174A-41A0-4E10-9EAC-D278973B1524}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {51435DD0-9A6F-4A24-82F0-CAAC9F20F7E8}
