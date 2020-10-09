@@ -1,5 +1,5 @@
 apiVersion: apps/v1
-kind: ReplicaSet
+kind: Deployment
 
 metadata:
   name: api
@@ -31,3 +31,16 @@ spec:
             value: redis-db
       imagePullSecrets:
       - name: dockerconfigjson-github-com
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dynamic-config-api
+spec:
+  type: LoadBalancer #exposed as localhost here
+  selector:
+   tier: public-api
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 80

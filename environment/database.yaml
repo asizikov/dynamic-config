@@ -27,6 +27,10 @@ kind: Service
 metadata:
   name: redis-db
 spec:
+  type: ClusterIP
+  selector:
+    tier: storage
+    app.kubernetes.io/name: redis
   ports:
     - protocol: TCP
       port: 6379
