@@ -1,3 +1,4 @@
+using DynamicConfig.Storage.Api.Health;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -15,6 +16,8 @@ namespace DynamicConfig.Storage.Api {
     public void ConfigureServices(IServiceCollection services) {
       services.AddStackExchangeRedisCache(options => { options.Configuration = Configuration.GetSection("REDIS").Value; });
       services.AddControllers();
+      services.AddHealthChecks()
+        .AddCheck<HealthCheck>(nameof(HealthCheck));
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
@@ -28,7 +31,10 @@ namespace DynamicConfig.Storage.Api {
 
       app.UseAuthorization();
 
-      app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+      app.UseEndpoints(endpoints => {
+        endpoints.MapControllers();
+        endpoints.MapHealthChecks("/health");
+      });
     }
   }
 }

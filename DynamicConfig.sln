@@ -43,7 +43,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "environment", "environment"
 	ProjectSection(SolutionItems) = preProject
 		environment\config-api.yaml = environment\config-api.yaml
 		environment\deployments.yaml = environment\deployments.yaml
-		environment\namespace.yaml = environment\namespace.yaml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "cluster-configs", "cluster-configs", "{B5B2363F-04C5-4268-9957-822AD99DE666}"
