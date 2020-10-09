@@ -21,3 +21,13 @@ spec:
       - name: redis-storage
         image: redis
       restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-db
+spec:
+  ports:
+    - protocol: TCP
+      port: 6379
+      targetPort: 6379

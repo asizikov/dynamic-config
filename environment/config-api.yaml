@@ -1,10 +1,33 @@
-apiVersion: v1
-kind: Pod
+apiVersion: apps/v1
+kind: ReplicaSet
+
 metadata:
-  name: dynamic-config-storage-api
+  name: api
+  labels:
+    tier: public-api
+    app: dynamic-config
 spec:
-  containers:
-  - name: dynamic-config-storage-api
-    image: ghcr.io/asizikov/dynamic-config-storage-api:v001
-  imagePullSecrets:
-  - name: dockerconfigjson-github-com
+  replicas: 2
+  selector:
+    matchLabels:
+      tier: public-api
+  template:
+    metadata:
+      labels:
+        tier: public-api
+      name: dynamic-config-storage-api
+    spec:
+      containers:
+      - name: dynamic-config-storage-api
+        image: ghcr.io/asizikov/dynamic-config-storage-api:v002
+        imagePullPolicy: Always
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 80
+          periodSeconds: 15
+        env:
+          - name: REDIS
+            value: redis-db
+      imagePullSecrets:
+      - name: dockerconfigjson-github-com
