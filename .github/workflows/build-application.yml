@@ -47,7 +47,7 @@ jobs:
     - name: Prepare env
       id:   prep
       run: |
-        DOCKER_IMAGE=asizikov/dynamic-config-storage-api
+        DOCKER_IMAGE=ghcr.io/asizikov/dynamic-config-storage-api
         VERSION=${GITHUB_SHA}
         if [ "${{ github.event_name }}" = "schedule" ]; then
           VERSION=nightly
@@ -62,15 +62,13 @@ jobs:
           VERSION=pr-${{ github.event.number }}
         fi
         TAGS="${DOCKER_IMAGE}:${VERSION}"
-        TAGS="$TAGS,ghcr.io/${DOCKER_IMAGE}:${VERSION}"
+        TAGS="$TAGS,${DOCKER_IMAGE}:v${GITHUB_RUN_NUMBER}"
         if [[ $VERSION =~ ^v[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]]; then
           MINOR=${VERSION%.*}
           MAJOR=${MINOR%.*}
           TAGS="$TAGS,${DOCKER_IMAGE}:${MINOR},${DOCKER_IMAGE}:${MAJOR},${DOCKER_IMAGE}:latest"
-          TAGS="$TAGS,ghcr.io/${DOCKER_IMAGE}:${MINOR},ghcr.io/${DOCKER_IMAGE}:${MAJOR},ghcr.io/${DOCKER_IMAGE}:latest"
         elif [ "${{ github.event_name }}" = "push" ]; then
           TAGS="$TAGS,${DOCKER_IMAGE}:sha-${GITHUB_SHA::8}"
-          TAGS="$TAGS,ghcr.io/${DOCKER_IMAGE}:sha-${GITHUB_SHA::8}"
         fi          
         echo ::set-output name=version::${VERSION}
         echo ::set-output name=tags::${TAGS}
@@ -81,11 +79,10 @@ jobs:
       with:
         context: .
         file: ./src/DynamicConfig.Storage.Api/Dockerfile
-        push: false
+        push: true
         tags: ${{ steps.prep.outputs.tags }}
         labels: |
           org.opencontainers.image.title=${{ github.event.repository.name }}
-          org.opencontainers.image.description=${{ github.event.repository.description }}
           org.opencontainers.image.url=${{ github.event.repository.html_url }}
           org.opencontainers.image.source=${{ github.event.repository.clone_url }}
           org.opencontainers.image.version=${{ steps.prep.outputs.version }}
