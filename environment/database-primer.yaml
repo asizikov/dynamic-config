@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: database-primer
+spec:
+ selector:
+   matchLabels:
+     app: database-primer
+ replicas: 1
+ template:
+   metadata:
+     labels:
+       app: database-primer
+   spec:
+     containers:
+     - name: dynamic-config-database-primer
+       image: ghcr.io/asizikov/dynamic-config-database-primer:v001
+       env:
+        - name: REDIS
+          value: redis-db
+    imagePullSecrets:
+        - name: dockerconfigjson-github-com
