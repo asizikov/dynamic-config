@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: dynamic-config-storage-api
-        image: ghcr.io/asizikov/dynamic-config-storage-api:v002
+        image: ghcr.io/asizikov/dynamic-config-storage-api:v39
         imagePullPolicy: Always
         livenessProbe:
           httpGet:
