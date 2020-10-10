@@ -17,7 +17,7 @@ namespace DynamicConfig.Storage.Api {
       services.AddStackExchangeRedisCache(options => { options.Configuration = Configuration.GetSection("REDIS").Value; });
       services.AddControllers();
       services.AddHealthChecks()
-        .AddCheck<HealthCheck>(nameof(HealthCheck));
+        .AddCheck<DistributedCacheHealthCheck>(nameof(DistributedCacheHealthCheck));
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
