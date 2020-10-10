@@ -16,15 +16,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Generate build number
+      id: buildnumber
+      uses: einaregilsson/build-number@v2
+      with:
+        token: ${{secrets.github_token}} 
+
     - uses: actions/checkout@v2
+
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.101
+
     - name: Install dependencies
       run: dotnet restore
+
     - name: Build
       run: dotnet build --configuration Release --no-restore
+
     - name: Test
       run: dotnet test --no-restore --verbosity normal
 
@@ -34,3 +44,11 @@ jobs:
         registry: ghcr.io
         username: ${{ github.repository_owner }}
         password: ${{ secrets.DOCKER_CONTAINER_REGISTRY_PAT }}
+
+    - name: Build and push Docker images
+      uses: docker/build-push-action@v1.1.1
+      with:
+        context: .
+        file: ./src/DynamicConfig.Storage.Api/Dockerfile
+        push: false
+        tags:  ghcr.io/asizikov/dynamic-config-storage-api:v${{ steps.buildnumber.outputs.build_number }}
