@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: management-web
+  labels:
+    tier: public-web
+    app: dynamic-config
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      tier: public-web
+  template:
+    metadata:
+      labels:
+        tier: public-web
+      name: dynamic-config-management-web
+    spec:
+      containers:
+      - name: dynamic-config-management-web
+        image: ghcr.io/asizikov/dynamic-config-management-web:v001
+        imagePullPolicy: Always
+        env:
+          - name: REDIS
+            value: redis-db
+          - name: ASPNETCORE_ENVIRONMENT
+            value: Development
+      imagePullSecrets:
+      - name: dockerconfigjson-github-com
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dynamic-config-management-web
+spec:
+  type: LoadBalancer #exposed as localhost here
+  selector:
+   tier: public-web
+  ports:
+    - protocol: TCP
+      port: 8081
+      targetPort: 80
