@@ -34,6 +34,9 @@ services:
     container_name: dynamic-config-storage-api
     depends_on: 
       - dynamic-config-redis-storage
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      interval: 30s
     networks: 
       - internal
       - public

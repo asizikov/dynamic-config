@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: database
+  labels:
+    app: dynamic-config
+    tier: storage
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      tier: storage
+  template:
+    metadata:
+      labels:
+        tier: storage
+        app.kubernetes.io/name: redis
+        app.kubernetes.io/component: database
+    spec:
+      containers:
+      - name: redis-storage
+        image: redis
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-db
+spec:
+  type: ClusterIP
+  selector:
+    tier: storage
+    app.kubernetes.io/name: redis
+  ports:
+    - protocol: TCP
+      port: 6379
+      targetPort: 6379

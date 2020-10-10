@@ -3,12 +3,12 @@ WORKDIR /app
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
-COPY ["src/clients/WorkerService.ServiceA/WorkerService.ServiceA.csproj", "src/clients/WorkerService.ServiceA/"]
-COPY ["src/DynamicConfig.Configuration/DynamicConfig.Configuration.csproj", "src/DynamicConfig.Configuration/"]
-COPY ["src/DynamicConfig.Storage.Model/DynamicConfig.Storage.Model.csproj", "src/DynamicConfig.Storage.Model/"]
-RUN dotnet restore "src/clients/WorkerService.ServiceA/WorkerService.ServiceA.csproj"
-COPY . .
-WORKDIR "/src/src/clients/WorkerService.ServiceA/"
+COPY ["src/clients/WorkerService.ServiceA", "clients/WorkerService.ServiceA/"]
+COPY ["src/DynamicConfig.Configuration", "DynamicConfig.Configuration/"]
+COPY ["src/DynamicConfig.Storage.Model", "DynamicConfig.Storage.Model/"]
+RUN dotnet restore "clients/WorkerService.ServiceA/WorkerService.ServiceA.csproj"
+
+WORKDIR "/src/clients/WorkerService.ServiceA/"
 RUN dotnet build "WorkerService.ServiceA.csproj" -c Release -o /app/build
 
 FROM build AS publish

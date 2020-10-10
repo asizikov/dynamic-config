@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -28,7 +28,7 @@ namespace DynamicConfig.Storage.Api.Controllers {
       try {
         json = await _distributedCache.GetStringAsync(serviceName.ToLowerInvariant(), token).ConfigureAwait(false);
         if (json is null) {
-          _logger.LogWarning($"No settings fround for {serviceName}");
+          _logger.LogWarning($"No settings found for {serviceName}");
           return NotFound();
         }
       }

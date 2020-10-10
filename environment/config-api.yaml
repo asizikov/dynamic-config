@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: api
+  labels:
+    tier: public-api
+    app: dynamic-config
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      tier: public-api
+  template:
+    metadata:
+      labels:
+        tier: public-api
+      name: dynamic-config-storage-api
+    spec:
+      containers:
+      - name: dynamic-config-storage-api
+        image: ghcr.io/asizikov/dynamic-config-storage-api:v002
+        imagePullPolicy: Always
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 80
+          periodSeconds: 15
+        env:
+          - name: REDIS
+            value: redis-db
+      imagePullSecrets:
+      - name: dockerconfigjson-github-com
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dynamic-config-api
+spec:
+  type: LoadBalancer #exposed as localhost here
+  selector:
+   tier: public-api
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 80
