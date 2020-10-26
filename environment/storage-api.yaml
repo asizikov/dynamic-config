@@ -37,7 +37,7 @@ kind: Service
 metadata:
   name: dynamic-config-api
 spec:
-  type: LoadBalancer #exposed as localhost here
+  type: NodePort 
   selector:
    tier: public-api
   ports:

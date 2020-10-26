@@ -34,7 +34,7 @@ kind: Service
 metadata:
   name: dynamic-config-management-web
 spec:
-  type: LoadBalancer #exposed as localhost here
+  type: NodePort
   selector:
    tier: public-web
   ports:
