@@ -9,8 +9,9 @@ namespace DynamicConfig.Configuration.Cache {
     private readonly IConfiguration _configuration;
 
     public DefaultCacheMissHandler(ILogger<DefaultCacheMissHandler> logger, IConfiguration configuration) {
-      _logger = logger;
-      _configuration = configuration;
+      // ensure that params are not null and assign to fileds
+      _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+      _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));      
     }
 
     public TType HandleCacheMiss<TType>(string key) {

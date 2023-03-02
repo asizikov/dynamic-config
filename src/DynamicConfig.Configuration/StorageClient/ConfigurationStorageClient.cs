@@ -18,7 +18,9 @@ namespace DynamicConfig.Configuration.StorageClient {
     public async Task<ServiceConfigurationResponse> ExecuteAsync(string applicationName, CancellationToken token) {
       var httpResponseMessage = await _http.GetAsync($"/configuration/{applicationName}", token).ConfigureAwait(false);
       _logger.LogInformation($"{httpResponseMessage.StatusCode}");
+     
       httpResponseMessage.EnsureSuccessStatusCode();
+      
       var responseString = await httpResponseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
 
       return JsonConvert.DeserializeObject<ServiceConfigurationResponse>(responseString);

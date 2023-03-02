@@ -37,6 +37,7 @@ namespace DynamicConfig.Configuration.BackgroundProcess {
       var ints = new Dictionary<string, Setting<int>>();
       var booleans = new Dictionary<string, Setting<bool>>();
       var strings = new Dictionary<string, Setting<string>>();
+      
       foreach (var item in serviceConfigurationResponse.ConfigurationItems) {
         switch (item.Type) {
           case ConfigurationItemType.Boolean:
