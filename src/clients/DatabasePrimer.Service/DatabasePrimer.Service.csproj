@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Worker">
 
     <PropertyGroup>
-        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <TargetFramework>net7.0</TargetFramework>
         <UserSecretsId>dotnet-DatabasePrimer.Service-BE13AAEC-48D4-41AE-940E-0AF190A08190</UserSecretsId>
     </PropertyGroup>
 
