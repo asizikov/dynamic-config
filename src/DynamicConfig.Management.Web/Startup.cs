@@ -1,13 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using DynamicConfig.Database;
-using DynamicConfig.Database.DependencyInjection;
 using Lamar;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -18,14 +12,9 @@ using StackExchange.Redis.Extensions.Core.Implementations;
 using StackExchange.Redis.Extensions.Newtonsoft;
 
 namespace DynamicConfig.Management.Web {
-  public class Startup {
-    public Startup(IConfiguration configuration) {
-      Configuration = configuration;
-    }
+  public class Startup(IConfiguration configuration) {
+    public IConfiguration Configuration { get; } = configuration;
 
-    public IConfiguration Configuration { get; }
-
-    // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services) {
       services.AddControllersWithViews();
     }
@@ -40,14 +29,14 @@ namespace DynamicConfig.Management.Web {
         s.WithDefaultConventions();
       });
       services.AddSingleton(new RedisConfiguration {
-        Hosts = new[] {
-          new RedisHost {Host = Configuration.GetSection("REDIS").Value, Port = 6379},
-        }
+        Hosts = [
+          new RedisHost { Host = Configuration.GetSection("REDIS").Value, Port = 6379 },
+        ]
       });
       services.AddStackExchangeRedisCache(options => { options.Configuration = Configuration.GetSection("REDIS").Value; });
       services.AddSingleton<IRedisClient, RedisClient>();
       services.AddSingleton<IRedisConnectionPoolManager, RedisConnectionPoolManager>();
-      services.AddSingleton<ISerializer, NewtonsoftSerializer>();
+      services.AddSingleton<ISerializer>(new NewtonsoftSerializer());
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
