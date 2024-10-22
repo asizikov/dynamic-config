@@ -6,10 +6,10 @@ using StackExchange.Redis.Extensions.Core.Abstractions;
 
 namespace DynamicConfig.Database {
   public class StorageAdapter : IStorageAdapter {
-    private readonly IRedisCacheClient _redis;
+    private readonly IRedisClient _redis;
     private readonly IDistributedCache _distributedCache;
 
-    public StorageAdapter(IRedisCacheClient redis, IDistributedCache distributedCache) {
+    public StorageAdapter(IRedisClient redis, IDistributedCache distributedCache) {
       _redis = redis;
       _distributedCache = distributedCache;
     }

@@ -45,9 +45,8 @@ namespace DynamicConfig.Management.Web {
         }
       });
       services.AddStackExchangeRedisCache(options => { options.Configuration = Configuration.GetSection("REDIS").Value; });
-      services.AddSingleton<IRedisCacheClient, RedisCacheClient>();
-      services.AddSingleton<IRedisCacheConnectionPoolManager, RedisCacheConnectionPoolManager>();
-      services.AddSingleton<IRedisDefaultCacheClient, RedisDefaultCacheClient>();
+      services.AddSingleton<IRedisClient, RedisClient>();
+      services.AddSingleton<IRedisConnectionPoolManager, RedisConnectionPoolManager>();
       services.AddSingleton<ISerializer, NewtonsoftSerializer>();
     }
 

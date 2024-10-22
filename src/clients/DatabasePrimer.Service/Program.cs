@@ -24,9 +24,8 @@ namespace DatabasePrimer.Service {
           );
           services.AddStackExchangeRedisCache(options => { options.Configuration = hostContext.Configuration.GetSection("REDIS").Value; });
           services.UseDatabase();
-          services.AddSingleton<IRedisCacheClient, RedisCacheClient>();
-          services.AddSingleton<IRedisCacheConnectionPoolManager, RedisCacheConnectionPoolManager>();
-          services.AddSingleton<IRedisDefaultCacheClient, RedisDefaultCacheClient>();
+          services.AddSingleton<IRedisClient, RedisClient>();
+          services.AddSingleton<IRedisConnectionPoolManager, RedisConnectionPoolManager>();
           services.AddSingleton<ISerializer, NewtonsoftSerializer>();
           services.AddHostedService<Worker>();
         });

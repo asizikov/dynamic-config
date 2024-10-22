@@ -16,7 +16,9 @@ namespace DynamicConfig.Configuration.Cache {
 
     public TType HandleCacheMiss<TType>(string key) {
       _logger.LogInformation($"Going to handle cache miss for {key}");
+
       var configurationSection = _configuration.GetSection(key);
+
       if (configurationSection.Exists()) {
         _logger.LogInformation($"Found default (static) value for {key}");
         return _configuration.GetValue<TType>(key);

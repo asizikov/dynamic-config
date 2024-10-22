@@ -17,7 +17,7 @@ This repository consists of a few packages:
 
 ### How to build/test
 
-Make sure you have .NET Core 3.1 SDK installed.
+Make sure you have .NET Core 8.0 SDK installed.
 
 Navigate to the repo root and run: 
 
