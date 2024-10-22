@@ -1,8 +1,8 @@
-FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim AS base
+FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
 EXPOSE 80
 
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 COPY ["src/DynamicConfig.Storage.Api/DynamicConfig.Storage.Api.csproj", "src/DynamicConfig.Storage.Api/"]
 RUN dotnet restore "src/DynamicConfig.Storage.Api/DynamicConfig.Storage.Api.csproj"

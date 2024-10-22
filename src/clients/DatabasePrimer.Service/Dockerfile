@@ -1,7 +1,7 @@
-FROM mcr.microsoft.com/dotnet/core/runtime:3.1-buster-slim AS base
+FROM mcr.microsoft.com/dotnet/runtime:8.0 AS base
 WORKDIR /app
 
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 COPY ["src/clients/DatabasePrimer.Service/*.csproj", "src/clients/DatabasePrimer.Service/"]
 COPY ["src/DynamicConfig.Database/*.csproj", "src/DynamicConfig.Database/"]
