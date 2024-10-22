@@ -1,7 +1,7 @@
 dynamic-config
 ====
 
-![](https://github.com/asizikov/dynamic-config/workflows/build-application/badge.svg)
+[![⚙️ Build Application](https://github.com/asizikov/dynamic-config/actions/workflows/build-application.yml/badge.svg)](https://github.com/asizikov/dynamic-config/actions/workflows/build-application.yml)
 
 ### Project overview 
 
