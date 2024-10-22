@@ -1,13 +1,11 @@
 using System;
 using System.Collections.Generic;
 using Xunit;
-using DynamicConfig.Configuration.Cache;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging.Abstractions;
 
 namespace DynamicConfig.Configuration.Cache.Tests {
     public class DefaultCacheMissHandlerTests {
-        private readonly ICacheMissHandler _cacheMissHandler;
 
         [Fact]
         public void Constructuor_NullLogger_Throws() {
