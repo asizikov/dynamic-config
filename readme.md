@@ -75,7 +75,7 @@ services.UseDynamicConfiguration(Configuration);
 ```
 where `Configuration` is your `IConfiguration` instance.
 
-This will register `IConfigurationReader` as a singleton in your DI container and kick of the synchronization process.
+This will register `IConfigurationReader` as a singleton in your DI container and kick off the synchronization process.
 
 If you're going to use the library this way you'd need to have following env vars provider (well, they don't have to be ENVVARS, but they have to be discoverable through the .NET Core configuration system via `IConfiguration` interface implementation): 
 
