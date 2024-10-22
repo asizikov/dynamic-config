@@ -3,14 +3,16 @@ name: build-application
 on:
   push:
     branches:
-      - master
       - main
       - feature/*
   pull_request:
     branches:
       - main
-      - master
       - feature/*
+
+permissions:
+  packages: write
+  contents: read
 
 jobs:
   build:
@@ -31,6 +33,7 @@ jobs:
     
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v3
+
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
 
@@ -42,7 +45,7 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Prepare env for storage api
-      id:   prep
+      id:  prep
       run: |
         DOCKER_IMAGE=ghcr.io/asizikov/dynamic-config-storage-api
         VERSION=${GITHUB_SHA}
