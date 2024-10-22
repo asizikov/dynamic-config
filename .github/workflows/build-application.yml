@@ -1,4 +1,4 @@
-name: build-application
+name: ⚙️ Build Application
 
 on:
   push:
@@ -10,15 +10,12 @@ on:
       - main
       - feature/*
 
-permissions:
-  packages: write
-  contents: read
 
 jobs:
-  build:
-
+  build-and-test:
     runs-on: ubuntu-latest
-
+    permissions:
+      contents: read
     steps:
     - uses: actions/checkout@v4
 
@@ -30,7 +27,30 @@ jobs:
 
     - name: Test
       run: dotnet test --no-restore --verbosity normal
-    
+
+  build-docker-images:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+
+    strategy:
+      matrix:
+        service:
+          - name: storage-api
+            dockerfile: ./src/DynamicConfig.Storage.Api/Dockerfile
+            image: ghcr.io/asizikov/dynamic-config-storage-api
+          - name: management-web
+            dockerfile: ./src/DynamicConfig.Management.Web/Dockerfile
+            image: ghcr.io/asizikov/dynamic-config-management-web
+          - name: database-primer
+            dockerfile: ./src/clients/DatabasePrimer.Service/Dockerfile
+            image: ghcr.io/asizikov/dynamic-config-database-primer
+
+    steps:
+    - uses: actions/checkout@v4
+
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v3
 
@@ -44,10 +64,10 @@ jobs:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Prepare env for storage api
-      id:  prep
+    - name: Prepare env for ${{ matrix.service.name }}
+      id: prep
       run: |
-        DOCKER_IMAGE=ghcr.io/asizikov/dynamic-config-storage-api
+        DOCKER_IMAGE=${{ matrix.service.image }}
         VERSION=${GITHUB_SHA}
         if [[ $GITHUB_REF == refs/tags/* ]]; then
           VERSION=${GITHUB_REF#refs/tags/}
@@ -68,15 +88,15 @@ jobs:
         elif [ "${{ github.event_name }}" = "push" ]; then
           TAGS="$TAGS,${DOCKER_IMAGE}:sha-${GITHUB_SHA::8}"
         fi          
-        echo ::set-output name=version::${VERSION}
-        echo ::set-output name=tags::${TAGS}
-        echo ::set-output name=created::$(date -u +'%Y-%m-%dT%H:%M:%SZ')
+        echo "version=${VERSION}" >> $GITHUB_OUTPUT
+        echo "tags=${TAGS}" >> $GITHUB_OUTPUT
+        echo "created=$(date -u +'%Y-%m-%dT%H:%M:%SZ')" >> $GITHUB_OUTPUT
 
     - name: Build and push Docker images
       uses: docker/build-push-action@v6
       with:
         context: .
-        file: ./src/DynamicConfig.Storage.Api/Dockerfile
+        file: ${{ matrix.service.dockerfile }}
         push: ${{ github.event_name != 'pull_request' }}
         tags: ${{ steps.prep.outputs.tags }}
         labels: |
@@ -87,87 +107,4 @@ jobs:
           org.opencontainers.image.created=${{ steps.prep.outputs.created }}
           org.opencontainers.image.revision=${{ github.sha }}
           org.opencontainers.image.licenses=${{ github.event.repository.license.spdx_id }}
-    
-    - name: Prepare env for Management Web
-      id: management-prep
-      run: | 
-        DOCKER_IMAGE=ghcr.io/asizikov/dynamic-config-management-web
-        VERSION=${GITHUB_SHA}
-        if [[ $GITHUB_REF == refs/tags/* ]]; then
-          VERSION=${GITHUB_REF#refs/tags/}
-        elif [[ $GITHUB_REF == refs/heads/* ]]; then
-          VERSION=$(echo ${GITHUB_REF#refs/heads/} | sed -r 's#/+#-#g')
-          if [ "${{ github.event.repository.default_branch }}" = "$VERSION" ]; then
-            VERSION=edge
-          fi
-        elif [[ $GITHUB_REF == refs/pull/* ]]; then
-          VERSION=pr-${{ github.event.number }}
-        fi
-        TAGS="${DOCKER_IMAGE}:${VERSION}"
-        TAGS="$TAGS,${DOCKER_IMAGE}:v${GITHUB_RUN_NUMBER}"
-        if [[ $VERSION =~ ^v[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]]; then
-          MINOR=${VERSION%.*}
-          MAJOR=${MINOR%.*}
-          TAGS="$TAGS,${DOCKER_IMAGE}:${MINOR},${DOCKER_IMAGE}:${MAJOR},${DOCKER_IMAGE}:latest"
-        elif [ "${{ github.event_name }}" = "push" ]; then
-          TAGS="$TAGS,${DOCKER_IMAGE}:sha-${GITHUB_SHA::8}"
-        fi          
-        echo ::set-output name=tags::${TAGS}
-        
-    - name: Build and push Docker images
-      uses: docker/build-push-action@v6
-      with:
-        context: .
-        file: ./src/DynamicConfig.Management.Web/Dockerfile
-        push: ${{ github.event_name != 'pull_request' }}
-        tags: ${{ steps.management-prep.outputs.tags }}
-        labels: |
-          org.opencontainers.image.title=${{ github.event.repository.name }}
-          org.opencontainers.image.url=${{ github.event.repository.html_url }}
-          org.opencontainers.image.source=${{ github.event.repository.clone_url }}
-          org.opencontainers.image.version=${{ steps.prep.outputs.version }}
-          org.opencontainers.image.created=${{ steps.prep.outputs.created }}
-          org.opencontainers.image.revision=${{ github.sha }}
-          org.opencontainers.image.licenses=${{ github.event.repository.license.spdx_id }}
-
-    - name: Prepare env for Database Primer
-      id: database-primer-prep
-      run: | 
-        DOCKER_IMAGE=ghcr.io/asizikov/dynamic-config-database-primer
-        VERSION=${GITHUB_SHA}
-        if [[ $GITHUB_REF == refs/tags/* ]]; then
-          VERSION=${GITHUB_REF#refs/tags/}
-        elif [[ $GITHUB_REF == refs/heads/* ]]; then
-          VERSION=$(echo ${GITHUB_REF#refs/heads/} | sed -r 's#/+#-#g')
-        if [ "${{ github.event.repository.default_branch }}" = "$VERSION" ]; then
-          VERSION=edge
-        fi
-        elif [[ $GITHUB_REF == refs/pull/* ]]; then
-          VERSION=pr-${{ github.event.number }}
-        fi
-        TAGS="${DOCKER_IMAGE}:${VERSION}"
-        TAGS="$TAGS,${DOCKER_IMAGE}:v${GITHUB_RUN_NUMBER}"
-        if [[ $VERSION =~ ^v[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]]; then
-          MINOR=${VERSION%.*}
-          MAJOR=${MINOR%.*}
-          TAGS="$TAGS,${DOCKER_IMAGE}:${MINOR},${DOCKER_IMAGE}:${MAJOR},${DOCKER_IMAGE}:latest"
-        elif [ "${{ github.event_name }}" = "push" ]; then
-          TAGS="$TAGS,${DOCKER_IMAGE}:sha-${GITHUB_SHA::8}"
-        fi          
-        echo ::set-output name=tags::${TAGS}
-            
-    - name: Build and push Docker images
-      uses: docker/build-push-action@v6
-      with:
-        context: .
-        file: ./src/clients/DatabasePrimer.Service/Dockerfile
-        push: ${{ github.event_name != 'pull_request' }}
-        tags: ${{ steps.database-primer-prep.outputs.tags }}
-        labels: |
-          org.opencontainers.image.title=${{ github.event.repository.name }}
-          org.opencontainers.image.url=${{ github.event.repository.html_url }}
-          org.opencontainers.image.source=${{ github.event.repository.clone_url }}
-          org.opencontainers.image.version=${{ steps.prep.outputs.version }}
-          org.opencontainers.image.created=${{ steps.prep.outputs.created }}
-          org.opencontainers.image.revision=${{ github.sha }}
-          org.opencontainers.image.licenses=${{ github.event.repository.license.spdx_id }}
+          org.opencontainers.image.source https://github.com/${{ github.repository_owner }}/${{ github.event.repository.name }}
