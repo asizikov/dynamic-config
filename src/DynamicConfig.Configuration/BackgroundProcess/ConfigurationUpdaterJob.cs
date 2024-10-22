@@ -29,7 +29,7 @@ namespace DynamicConfig.Configuration.BackgroundProcess {
         _logger.LogInformation("Updated settings cache");
       }
       catch (Exception e) {
-        _logger.LogError(e, "Failed to retrieve of process an up-to-date configuration for application. Will try again later");
+        _logger.LogError(e, "Failed to retrieve or process an up-to-date configuration for application. Will try again later");
       }
     }
 
